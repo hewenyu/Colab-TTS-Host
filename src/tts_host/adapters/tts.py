@@ -28,6 +28,15 @@ def text_pieces(text):
     yield from re.findall(r"[\u3400-\u9fff]|[^\u3400-\u9fff\s]+\s*|\s+", text)
 
 
+def model_text_input(chunks, text_input_streaming):
+    """Complete text uses unistream LLM decoding, with independently streamed audio.
+
+    Do not feed a known complete utterance to the mixed prompt/text bistream
+    decoder: short targets can continue the reference speech before the target.
+    """
+    return chunks if text_input_streaming else ''.join(chunks)
+
+
 @contextmanager
 def mapped_checkpoints():
     """Avoid an extra anonymous-RAM copy of upstream torch checkpoints while loading.
@@ -98,8 +107,10 @@ def _worker(config, commands, inputs, outputs):
                     yield first
                     yield from chunks
                 prompt = "You are a helpful assistant.<|endofprompt|>" + voice["transcript"]
-                # Pass a generator: this invokes upstream inference_bistream, not sentence batching.
-                for result in model.inference_zero_shot(combined(), prompt, voice["audio_path"],
+                # Genuine incremental text retains native bistream decoding. Complete HTTP
+                # text and committed translations use a string, still with stream=True.
+                model_text = model_text_input(combined(), voice.get("_text_input_streaming", True))
+                for result in model.inference_zero_shot(model_text, prompt, voice["audio_path"],
                                                         stream=True, text_frontend=False):
                     outputs.put(("audio", model.sample_rate,
                                  pcm16(result["tts_speech"].detach().cpu().numpy().reshape(-1))))
@@ -142,12 +153,12 @@ class CosyVoiceTTS:
     async def close(self):
         await asyncio.to_thread(self._stop)
 
-    async def stream(self, text, voice):
+    async def stream(self, text, voice, *, text_input_streaming=True):
         async with self.lock:
             if self.process is None or not self.process.is_alive():
                 await self.close()
                 self._start()
-            self.commands.put_nowait(voice)
+            self.commands.put_nowait({**voice, "_text_input_streaming": text_input_streaming})
             async def feed():
                 async for chunk in text:
                     while True:

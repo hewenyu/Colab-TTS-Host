@@ -16,7 +16,7 @@ KEY = 'studio-test-only-key-not-for-production'
 
 
 class BrowserTTS:
-    async def stream(self, texts, voice):
+    async def stream(self, texts, voice, *, text_input_streaming=True):
         async for _ in texts:
             for i in range(4):
                 await asyncio.sleep(.08)

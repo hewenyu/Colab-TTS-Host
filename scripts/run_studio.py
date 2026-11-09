@@ -16,6 +16,14 @@ import time
 import yaml
 
 
+def check_port(port):
+    # Closed HTTP connections can remain in TIME_WAIT after a clean shutdown.
+    # Reuse their address while still rejecting an active listening server.
+    with socket.socket() as probe:
+        probe.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        probe.bind(('127.0.0.1', port))
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--mode', choices=['gpu', 'cpu', 'train'], default='gpu')
@@ -24,8 +32,7 @@ def main():
     if not 1 <= args.port <= 65535:
         parser.error('port must be between 1 and 65535')
     config = Path(os.environ.get('SPEECH_CONFIG', 'config/server.yaml' if args.mode == 'cpu' else 'config/gpu.yaml'))
-    with socket.socket() as probe:
-        probe.bind(('127.0.0.1', args.port))
+    check_port(args.port)
     uvicorn = [sys.executable, '-m', 'uvicorn', 'tts_host.app:create_app', '--factory', '--host', '127.0.0.1', '--port', str(args.port), '--workers', '1', '--ws-max-size', '65536', '--ws-max-queue', '16']
     if args.mode != 'train':
         os.environ['SPEECH_CONFIG'] = str(config)
