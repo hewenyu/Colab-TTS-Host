@@ -48,3 +48,11 @@ async def test_cancellation_terminates_native_worker(monkeypatch):
         assert process.is_alive()
     assert backend.process is None
     assert spawned[0] not in {p.pid for p in mp.active_children()}
+
+
+def test_complete_text_is_not_sent_to_native_bistream_decoder():
+    from tts_host.adapters.tts import model_text_input
+    chunks = iter(['今天下午', '一起散步。'])
+    assert model_text_input(chunks, False) == '今天下午一起散步。'
+    incremental = (piece for piece in ['今天', '下午'])
+    assert model_text_input(incremental, True) is incremental

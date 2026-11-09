@@ -47,3 +47,25 @@ def test_training_mode_disables_inference_and_cleans_up(tmp_path):
         fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
     with socket.socket() as sock:
         assert sock.connect_ex(('127.0.0.1', port)) != 0
+
+
+def test_mode_switch_reuses_time_wait_but_rejects_live_listener():
+    import importlib.util
+    import pytest
+    launcher = Path(__file__).resolve().parents[1] / 'scripts/run_studio.py'
+    spec = importlib.util.spec_from_file_location('run_studio', launcher)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    with socket.socket() as listener:
+        listener.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        listener.bind(('127.0.0.1', 0))
+        port = listener.getsockname()[1]
+        listener.listen()
+        with pytest.raises(OSError):
+            module.check_port(port)
+        with socket.create_connection(('127.0.0.1', port)) as client:
+            accepted, _ = listener.accept()
+            accepted.shutdown(socket.SHUT_WR)
+            accepted.close()
+            assert client.recv(1) == b''
+    module.check_port(port)

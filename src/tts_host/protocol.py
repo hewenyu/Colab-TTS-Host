@@ -106,9 +106,9 @@ class Session:
                 return
             yield item
 
-    async def synthesize(self, texts, segment_id):
+    async def synthesize(self, texts, segment_id, *, text_input_streaming=True):
         tts = self.services.require("tts")
-        async with aclosing(tts.stream(texts, self.voice)) as stream:
+        async with aclosing(tts.stream(texts, self.voice, text_input_streaming=text_input_streaming)) as stream:
             index = 0
             async for rate, audio in stream:
                 await self.emit("audio.chunk", segment_id=segment_id, chunk_index=index,
@@ -175,7 +175,7 @@ class Session:
                 source, self.start.source_language, self.start.target_language)
             await self.emit("translation.final", segment_id=segment, source_text=source, text=translated)
             if self.start.mode == "interpret" and translated:
-                await self.synthesize(single_text(translated), segment)
+                await self.synthesize(single_text(translated), segment, text_input_streaming=False)
 
     async def processor(self):
         await self.emit("session.ready", mode=self.start.mode, input_encoding="pcm_s16le",

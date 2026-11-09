@@ -27,8 +27,10 @@ class FakeTTS:
     def __init__(self):
         self.closed = 0
         self.seen = []
+        self.input_modes = []
 
-    async def stream(self, texts, voice):
+    async def stream(self, texts, voice, *, text_input_streaming=True):
+        self.input_modes.append(text_input_streaming)
         try:
             async for text in texts:
                 self.seen.append(text)

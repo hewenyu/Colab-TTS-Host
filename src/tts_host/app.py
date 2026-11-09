@@ -192,7 +192,7 @@ def create_app(settings=None, services=None):
         # Acquire capacity before sending response headers.
         admission = slot()
         await admission.__aenter__()
-        stream = tts.stream(single_text(body.text), voice)
+        stream = tts.stream(single_text(body.text), voice, text_input_streaming=False)
         try:
             first = await asyncio.wait_for(anext(stream), settings.limits.inference_seconds)
         except BaseException:
