@@ -155,6 +155,8 @@ def create_app(settings=None, services=None):
 
     @app.post("/v1/translations")
     async def translate(body: TranslationRequest, user=Depends(owner)):
+        if not body.text.strip() or len(body.text) > settings.limits.text_chars:
+            raise HTTPException(422, "Text is empty or exceeds configured length limit")
         async with slot():
             text = await asyncio.wait_for(services.require("translation").translate(
                 body.text, body.source_language, body.target_language), settings.limits.inference_seconds)
@@ -180,6 +182,8 @@ def create_app(settings=None, services=None):
 
     @app.post("/v1/tts/speech")
     async def speech(body: SpeechRequest, user=Depends(owner)):
+        if not body.text.strip() or len(body.text) > settings.limits.text_chars:
+            raise HTTPException(422, "Text is empty or exceeds configured length limit")
         tts = services.require("tts")
         voice = voice_for(user, body.voice_id)
         # Acquire capacity before sending response headers.

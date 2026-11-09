@@ -7,18 +7,49 @@ The next request reloads weights. All IPC queues are bounded.
 import asyncio
 import logging
 import multiprocessing as mp
+import os
 import queue
 import sys
 import time
+import zipfile
+from contextlib import contextmanager
 
 from ..audio import pcm16
 
 
+@contextmanager
+def mapped_checkpoints():
+    """Avoid an extra anonymous-RAM copy of upstream torch checkpoints while loading.
+
+    Scoped to initialization inside this isolated process; restore torch.load even on error.
+    Legacy non-zip checkpoints retain upstream loading behavior.
+    """
+    import torch
+    original = torch.load
+    def load(path, *args, **kwargs):
+        if isinstance(path, (str, os.PathLike)) and zipfile.is_zipfile(path):
+            kwargs.setdefault("mmap", True)
+        return original(path, *args, **kwargs)
+    torch.load = load
+    try:
+        yield
+    finally:
+        torch.load = original
+
+
 def _worker(config, commands, inputs, outputs):
+    # Colab exports an inline notebook backend unavailable inside our isolated runtime.
+    os.environ["MPLBACKEND"] = "Agg"
+    if config.device == "cpu":
+        os.environ["CUDA_VISIBLE_DEVICES"] = ""
     sys.path.insert(0, str(config.source_dir.resolve()))
     sys.path.insert(0, str(config.source_dir.resolve() / "third_party/Matcha-TTS"))
     logging.disable(logging.WARNING)
     from cosyvoice.cli.cosyvoice import AutoModel
+    if config.device == "cuda":
+        import torch
+        if not torch.cuda.is_available():
+            raise RuntimeError("TTS is configured for CUDA but no CUDA device is available")
     model, loaded_dir = None, None
     while True:
         voice = commands.get()
@@ -34,7 +65,8 @@ def _worker(config, commands, inputs, outputs):
                     gc.collect()
                     if torch.cuda.is_available():
                         torch.cuda.empty_cache()
-                model = AutoModel(model_dir=directory, fp16=config.fp16)
+                with mapped_checkpoints():
+                    model = AutoModel(model_dir=directory, fp16=config.fp16)
                 if model.__class__.__name__ != "CosyVoice3":
                     raise ValueError("cosyvoice3 adapter requires CosyVoice3 weights")
                 loaded_dir = directory
@@ -58,6 +90,7 @@ def _worker(config, commands, inputs, outputs):
                                  pcm16(result["tts_speech"].detach().cpu().numpy().reshape(-1))))
             outputs.put(("done",))
         except Exception:
+            logging.exception("CosyVoice worker failed")
             outputs.put(("error",))
             return
 
@@ -127,7 +160,7 @@ class CosyVoiceTTS:
                         item = self.outputs.get_nowait()
                     except queue.Empty:
                         if not self.process.is_alive():
-                            raise RuntimeError("TTS worker exited while generating audio")
+                            raise RuntimeError(f"TTS worker exited while generating audio (exit {self.process.exitcode})")
                         await asyncio.sleep(0.02)
                         continue
                     if item[0] == "error":

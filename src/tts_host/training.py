@@ -64,6 +64,7 @@ def run_job(settings, store, owner, job):
     directory.mkdir(parents=True, exist_ok=True)
     started = time.monotonic()
     env = os.environ.copy()
+    env["MPLBACKEND"] = "Agg"
     env["PYTHONPATH"] = os.pathsep.join([str(source), str(source / "third_party/Matcha-TTS")])
     env["CUDA_VISIBLE_DEVICES"] = env.get("CUDA_VISIBLE_DEVICES", "0")
     log_path = directory / "training.log"
@@ -143,7 +144,7 @@ def run_job(settings, store, owner, job):
     (model_dir / "training-manifest.json").write_text(json.dumps(manifest, indent=2))
     original = store.get("voice", owner, job["voice_id"])
     new_voice = store.create("voice", owner, {k: v for k, v in {
-        **original, "kind": "finetuned", "parent_voice_id": original["id"],
+        **original, "kind": "finetuned", "parent_voice_id": original["id"], "base_revision": job["base_revision"],
         "version": original["version"] + 1, "model_dir": str(model_dir), "training_job_id": job["id"],
     }.items() if k not in ("id", "created_at")})
     store.update("job", owner, job["id"], status="succeeded", stage="complete",

@@ -16,7 +16,8 @@ def main():
     for name, folder in (("tts", "cosyvoice3"), ("translation", "translation")):
         spec = lock[name]
         snapshot_download(spec["repo"], revision=spec["revision"], local_dir=root / folder,
-                          ignore_patterns=["*.zip", "*.engine", "*.plan"], max_workers=4)
+                          ignore_patterns=["*.zip", "*.engine", "*.plan", "*.batch.onnx",
+                                           "flow.decoder.*", "llm.rl.pt"], max_workers=4)
     from modelscope import snapshot_download as ms_download
     ms_download(lock["asr"]["repo"], revision=lock["asr"]["revision"], local_dir=str(root / "asr"))
     (root / "revisions.json").write_text(json.dumps(lock, indent=2))

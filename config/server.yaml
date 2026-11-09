@@ -8,6 +8,7 @@ asr:
   device: cpu
 tts:
   backend: cosyvoice3
+  device: cpu
   source_dir: vendor/CosyVoice
   model_dir: models/cosyvoice3
   revision: 29e01c4e8d000f4bcd70751be16fa94bf3d85a18

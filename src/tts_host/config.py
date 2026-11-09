@@ -20,6 +20,7 @@ class ASRConfig(Strict):
 
 class TTSConfig(Strict):
     backend: Literal["disabled", "cosyvoice3"] = "disabled"
+    device: Literal["cpu", "cuda"] = "cpu"
     source_dir: Path = Path("vendor/CosyVoice")
     model_dir: Path = Path("models/cosyvoice3")
     revision: str = "unrecorded"

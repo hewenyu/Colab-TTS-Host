@@ -3,7 +3,7 @@ ARG TORCH_INDEX_URL=https://download.pytorch.org/whl/cpu
 ARG COSYVOICE_REV=074ca6dc9e80a2f424f1f74b48bdd7d3fea531cc
 ENV PYTHONUNBUFFERED=1 PIP_NO_CACHE_DIR=1 HF_HOME=/app/cache/huggingface \
     MODELSCOPE_CACHE=/app/cache/modelscope OMP_NUM_THREADS=2 MKL_NUM_THREADS=2 \
-    TOKENIZERS_PARALLELISM=false
+    TOKENIZERS_PARALLELISM=false MPLBACKEND=Agg
 RUN apt-get update && apt-get install -y --no-install-recommends \
     git build-essential libsndfile1 sox ffmpeg libgomp1 ca-certificates \
     && rm -rf /var/lib/apt/lists/*

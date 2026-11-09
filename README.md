@@ -51,6 +51,7 @@ asr:
   device: cuda
 tts:
   backend: cosyvoice3
+  device: cuda
   source_dir: /app/vendor/CosyVoice
   model_dir: /app/models/cosyvoice3
   revision: 29e01c4e8d000f4bcd70751be16fa94bf3d85a18
