@@ -14,3 +14,8 @@ vendor/
 *.log
 build/
 dist/
+
+node_modules/
+src/tts_host/web/
+.impeccable/review/
+.impeccable/questions/

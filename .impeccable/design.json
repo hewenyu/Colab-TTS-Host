@@ -1,0 +1,432 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-09T14:42:39.312421+00:00",
+  "title": "Design System: 声间 · Colab TTS Host",
+  "extensions": {
+    "colorMeta": {
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "#20313d",
+        "tonalRamp": [
+          "oklch(0.15 0.0062 239.8)",
+          "oklch(0.26 0.0156 239.8)",
+          "oklch(0.38 0.0250 239.8)",
+          "oklch(0.50 0.0312 239.8)",
+          "oklch(0.62 0.0312 239.8)",
+          "oklch(0.74 0.0250 239.8)",
+          "oklch(0.85 0.0156 239.8)",
+          "oklch(0.95 0.0047 239.8)"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Slate",
+        "canonical": "#62717d",
+        "tonalRamp": [
+          "oklch(0.15 0.0052 242.2)",
+          "oklch(0.26 0.0130 242.2)",
+          "oklch(0.38 0.0208 242.2)",
+          "oklch(0.50 0.0261 242.2)",
+          "oklch(0.62 0.0261 242.2)",
+          "oklch(0.74 0.0208 242.2)",
+          "oklch(0.85 0.0130 242.2)",
+          "oklch(0.95 0.0039 242.2)"
+        ]
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Quiet Rule",
+        "canonical": "#dce3e8",
+        "tonalRamp": [
+          "oklch(0.15 0.0020 238.5)",
+          "oklch(0.26 0.0051 238.5)",
+          "oklch(0.38 0.0081 238.5)",
+          "oklch(0.50 0.0102 238.5)",
+          "oklch(0.62 0.0102 238.5)",
+          "oklch(0.74 0.0081 238.5)",
+          "oklch(0.85 0.0051 238.5)",
+          "oklch(0.95 0.0015 238.5)"
+        ]
+      },
+      "ground": {
+        "role": "neutral",
+        "displayName": "Mineral Ground",
+        "canonical": "#f3f6f8",
+        "tonalRamp": [
+          "oklch(0.15 0.0008 236.5)",
+          "oklch(0.26 0.0021 236.5)",
+          "oklch(0.38 0.0033 236.5)",
+          "oklch(0.50 0.0042 236.5)",
+          "oklch(0.62 0.0042 236.5)",
+          "oklch(0.74 0.0033 236.5)",
+          "oklch(0.85 0.0021 236.5)",
+          "oklch(0.95 0.0006 236.5)"
+        ]
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "Paper",
+        "canonical": "#fff",
+        "tonalRamp": [
+          "oklch(0.15 0.0000 0.0)",
+          "oklch(0.26 0.0000 0.0)",
+          "oklch(0.38 0.0000 0.0)",
+          "oklch(0.50 0.0000 0.0)",
+          "oklch(0.62 0.0000 0.0)",
+          "oklch(0.74 0.0000 0.0)",
+          "oklch(0.85 0.0000 0.0)",
+          "oklch(0.95 0.0000 0.0)"
+        ]
+      },
+      "accent": {
+        "role": "primary",
+        "displayName": "Precise Cobalt",
+        "canonical": "#2656c9",
+        "tonalRamp": [
+          "oklch(0.15 0.0300 263.7)",
+          "oklch(0.26 0.0750 263.7)",
+          "oklch(0.38 0.1200 263.7)",
+          "oklch(0.50 0.1500 263.7)",
+          "oklch(0.62 0.1500 263.7)",
+          "oklch(0.74 0.1200 263.7)",
+          "oklch(0.85 0.0750 263.7)",
+          "oklch(0.95 0.0225 263.7)"
+        ]
+      },
+      "accent-soft": {
+        "role": "primary",
+        "displayName": "Cobalt Wash",
+        "canonical": "#edf2ff",
+        "tonalRamp": [
+          "oklch(0.15 0.0036 269.1)",
+          "oklch(0.26 0.0091 269.1)",
+          "oklch(0.38 0.0146 269.1)",
+          "oklch(0.50 0.0182 269.1)",
+          "oklch(0.62 0.0182 269.1)",
+          "oklch(0.74 0.0146 269.1)",
+          "oklch(0.85 0.0091 269.1)",
+          "oklch(0.95 0.0027 269.1)"
+        ]
+      },
+      "nav": {
+        "role": "neutral",
+        "displayName": "Ink Navy",
+        "canonical": "#182d3c",
+        "tonalRamp": [
+          "oklch(0.15 0.0077 241.0)",
+          "oklch(0.26 0.0193 241.0)",
+          "oklch(0.38 0.0309 241.0)",
+          "oklch(0.50 0.0386 241.0)",
+          "oklch(0.62 0.0386 241.0)",
+          "oklch(0.74 0.0309 241.0)",
+          "oklch(0.85 0.0193 241.0)",
+          "oklch(0.95 0.0058 241.0)"
+        ]
+      },
+      "danger": {
+        "displayName": "Danger Red",
+        "canonical": "#a92b38",
+        "tonalRamp": [
+          "oklch(0.15 0.0300 20.1)",
+          "oklch(0.26 0.0750 20.1)",
+          "oklch(0.38 0.1200 20.1)",
+          "oklch(0.50 0.1500 20.1)",
+          "oklch(0.62 0.1500 20.1)",
+          "oklch(0.74 0.1200 20.1)",
+          "oklch(0.85 0.0750 20.1)",
+          "oklch(0.95 0.0225 20.1)"
+        ]
+      },
+      "accent-hover": {
+        "role": "primary",
+        "displayName": "Cobalt Hover",
+        "canonical": "#1b44aa",
+        "tonalRamp": [
+          "oklch(0.15 0.0300 263.9)",
+          "oklch(0.26 0.0750 263.9)",
+          "oklch(0.38 0.1200 263.9)",
+          "oklch(0.50 0.1500 263.9)",
+          "oklch(0.62 0.1500 263.9)",
+          "oklch(0.74 0.1200 263.9)",
+          "oklch(0.85 0.0750 263.9)",
+          "oklch(0.95 0.0225 263.9)"
+        ]
+      },
+      "accent-active": {
+        "role": "primary",
+        "displayName": "Cobalt Pressed",
+        "canonical": "#14378d",
+        "tonalRamp": [
+          "oklch(0.15 0.0297 263.8)",
+          "oklch(0.26 0.0742 263.8)",
+          "oklch(0.38 0.1188 263.8)",
+          "oklch(0.50 0.1485 263.8)",
+          "oklch(0.62 0.1485 263.8)",
+          "oklch(0.74 0.1188 263.8)",
+          "oklch(0.85 0.0742 263.8)",
+          "oklch(0.95 0.0223 263.8)"
+        ]
+      },
+      "focus": {
+        "role": "primary",
+        "displayName": "Focus Blue",
+        "canonical": "#83a9ff",
+        "tonalRamp": [
+          "oklch(0.15 0.0264 265.2)",
+          "oklch(0.26 0.0659 265.2)",
+          "oklch(0.38 0.1055 265.2)",
+          "oklch(0.50 0.1318 265.2)",
+          "oklch(0.62 0.1318 265.2)",
+          "oklch(0.74 0.1055 265.2)",
+          "oklch(0.85 0.0659 265.2)",
+          "oklch(0.95 0.0198 265.2)"
+        ]
+      },
+      "field-border": {
+        "role": "neutral",
+        "displayName": "Field Stroke",
+        "canonical": "#cdd8e1",
+        "tonalRamp": [
+          "oklch(0.15 0.0034 242.5)",
+          "oklch(0.26 0.0086 242.5)",
+          "oklch(0.38 0.0138 242.5)",
+          "oklch(0.50 0.0172 242.5)",
+          "oklch(0.62 0.0172 242.5)",
+          "oklch(0.74 0.0138 242.5)",
+          "oklch(0.85 0.0086 242.5)",
+          "oklch(0.95 0.0026 242.5)"
+        ]
+      },
+      "secondary-border": {
+        "role": "neutral",
+        "displayName": "Secondary Stroke",
+        "canonical": "#cbd6df",
+        "tonalRamp": [
+          "oklch(0.15 0.0035 242.5)",
+          "oklch(0.26 0.0086 242.5)",
+          "oklch(0.38 0.0138 242.5)",
+          "oklch(0.50 0.0173 242.5)",
+          "oklch(0.62 0.0173 242.5)",
+          "oklch(0.74 0.0138 242.5)",
+          "oklch(0.85 0.0086 242.5)",
+          "oklch(0.95 0.0026 242.5)"
+        ]
+      },
+      "nav-active": {
+        "role": "neutral",
+        "displayName": "Active Navy",
+        "canonical": "#2b465a",
+        "tonalRamp": [
+          "oklch(0.15 0.0095 241.6)",
+          "oklch(0.26 0.0238 241.6)",
+          "oklch(0.38 0.0380 241.6)",
+          "oklch(0.50 0.0475 241.6)",
+          "oklch(0.62 0.0475 241.6)",
+          "oklch(0.74 0.0380 241.6)",
+          "oklch(0.85 0.0238 241.6)",
+          "oklch(0.95 0.0071 241.6)"
+        ]
+      },
+      "nav-text": {
+        "role": "neutral",
+        "displayName": "Rail Text",
+        "canonical": "#bdcbd6",
+        "tonalRamp": [
+          "oklch(0.15 0.0043 241.4)",
+          "oklch(0.26 0.0109 241.4)",
+          "oklch(0.38 0.0174 241.4)",
+          "oklch(0.50 0.0217 241.4)",
+          "oklch(0.62 0.0217 241.4)",
+          "oklch(0.74 0.0174 241.4)",
+          "oklch(0.85 0.0109 241.4)",
+          "oklch(0.95 0.0033 241.4)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Existing page heading scale; system-stack display inheritance remains an implementation exception."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Section titles."
+      },
+      "subheading": {
+        "displayName": "Subheading",
+        "purpose": "Record and output headings."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Normal interface copy and inherited native control font."
+      },
+      "editor": {
+        "displayName": "Editor",
+        "purpose": "Speech text composition."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Visible form labels."
+      },
+      "metadata": {
+        "displayName": "Metadata",
+        "purpose": "Small identity, count, and timing details."
+      },
+      "button": {
+        "displayName": "Button",
+        "purpose": "Primary and secondary action text."
+      }
+    },
+    "shadows": [
+      {
+        "name": "studio-ambient",
+        "value": "0 12px 36px #132c4010",
+        "purpose": "Composite studio container."
+      },
+      {
+        "name": "floating-audio",
+        "value": "0 5px 24px #132c4033",
+        "purpose": "Fixed material preview player."
+      }
+    ],
+    "motion": [
+      {
+        "name": "control-colors",
+        "value": "background-color 0.18s ease-out, border-color 0.18s ease-out, color 0.18s ease-out",
+        "purpose": "Interactive color state changes; disabled under prefers-reduced-motion: reduce."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "mobile-max",
+        "value": "760px"
+      },
+      {
+        "name": "compact-max",
+        "value": "1100px"
+      },
+      {
+        "name": "wide-min",
+        "value": "1600px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Main action, with hover, pressed, focus, and disabled states.",
+      "html": "<button class=\"ds-primary\">生成并试听</button>",
+      "css": ".ds-primary{font-family:-apple-system, BlinkMacSystemFont, \"Segoe UI\", \"PingFang SC\", \"Microsoft YaHei\", sans-serif;font-size:14px;line-height:1.6;display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:42px;padding:9px 19px;border-radius:7px;font-weight:550;white-space:nowrap;cursor:pointer;transition:background-color .18s ease-out,border-color .18s ease-out,color .18s ease-out;border:0;background:var(--accent,#2656c9);color:var(--paper,#fff)}.ds-primary:hover:not(:disabled){background:#1b44aa}.ds-primary:active:not(:disabled){background:#14378d}.ds-primary:focus-visible{outline:3px solid var(--focus,#83a9ff);outline-offset:3px}.ds-primary:disabled{opacity:.5;cursor:not-allowed}@media(prefers-reduced-motion:reduce){.ds-primary{transition:none!important}}"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "A supporting action on paper.",
+      "html": "<button class=\"ds-secondary\">添加第一个音色</button>",
+      "css": ".ds-secondary{font-family:-apple-system, BlinkMacSystemFont, \"Segoe UI\", \"PingFang SC\", \"Microsoft YaHei\", sans-serif;font-size:14px;line-height:1.6;display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:42px;padding:9px 19px;border-radius:7px;font-weight:550;white-space:nowrap;cursor:pointer;transition:background-color .18s ease-out,border-color .18s ease-out,color .18s ease-out;border:1px solid #cbd6df;background:var(--paper,#fff);color:var(--ink,#20313d)}.ds-secondary:hover:not(:disabled){background:#eaf0f5;border-color:#a4b4c3}.ds-secondary:focus-visible{outline:3px solid var(--focus,#83a9ff);outline-offset:3px}.ds-secondary:disabled{opacity:.5;cursor:not-allowed}@media(prefers-reduced-motion:reduce){.ds-secondary{transition:none!important}}"
+    },
+    {
+      "name": "Text Button",
+      "kind": "button",
+      "refersTo": "button-text",
+      "description": "A compact inline utility action.",
+      "html": "<button class=\"ds-text\">复制音色 ID</button>",
+      "css": ".ds-text{font-family:-apple-system, BlinkMacSystemFont, \"Segoe UI\", \"PingFang SC\", \"Microsoft YaHei\", sans-serif;font-size:14px;line-height:1.6;transition:background-color .18s ease-out,border-color .18s ease-out,color .18s ease-out;font-size:12px;border:0;background:none;color:var(--accent,#2656c9);padding:4px 0;cursor:pointer}.ds-text:hover{color:#173b9b;text-decoration:underline}.ds-text:focus-visible{outline:3px solid var(--focus,#83a9ff);outline-offset:3px}.ds-text:disabled{opacity:.5;cursor:not-allowed}@media(prefers-reduced-motion:reduce){.ds-text{transition:none!important}}"
+    },
+    {
+      "name": "Icon Button",
+      "kind": "button",
+      "refersTo": "button-icon",
+      "description": "Refresh action with an accessible name and neutral hover.",
+      "html": "<button class=\"ds-icon\" aria-label=\"刷新工作区\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M20 7a9 9 0 1 0 1 8M20 3v5h-5\"/></svg></button>",
+      "css": ".ds-icon{display:grid;place-items:center;padding:8px;border:0;background:transparent;color:var(--muted,#62717d);border-radius:6px;cursor:pointer;transition:background-color .18s ease-out,border-color .18s ease-out,color .18s ease-out;}.ds-icon svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;}.ds-icon:hover{background:var(--line,#dce3e8);color:var(--ink,#20313d)}.ds-icon:focus-visible{outline:3px solid var(--focus,#83a9ff);outline-offset:3px}.ds-icon:disabled{opacity:.5;cursor:not-allowed}@media(prefers-reduced-motion:reduce){.ds-icon{transition:none!important}}"
+    },
+    {
+      "name": "Text Field",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Visible label and native editable field.",
+      "html": "<label class=\"ds-label\" for=\"ds-name\">音色名称</label><input class=\"ds-input\" id=\"ds-name\" placeholder=\"例如：我的日常声音\">",
+      "css": ".ds-label{font-family:-apple-system, BlinkMacSystemFont, \"Segoe UI\", \"PingFang SC\", \"Microsoft YaHei\", sans-serif;font-size:14px;line-height:1.6;display:block;font-size:12px;font-weight:550;margin-bottom:7px;color:var(--ink,#20313d)}.ds-input{font-family:-apple-system, BlinkMacSystemFont, \"Segoe UI\", \"PingFang SC\", \"Microsoft YaHei\", sans-serif;font-size:14px;line-height:1.6;transition:background-color .18s ease-out,border-color .18s ease-out,color .18s ease-out;width:100%;max-width:320px;min-height:42px;padding:10px 12px;border:1px solid #cdd8e1;background:var(--paper,#fff);border-radius:7px;color:var(--ink,#20313d);caret-color:var(--accent,#2656c9)}.ds-input::placeholder{color:#73808b}.ds-input:focus-visible{outline:3px solid var(--focus,#83a9ff);outline-offset:3px}.ds-input:disabled{opacity:.5;cursor:not-allowed}@media(prefers-reduced-motion:reduce){.ds-input,.ds-label{transition:none!important}}"
+    },
+    {
+      "name": "Navigation",
+      "kind": "nav",
+      "refersTo": "navigation",
+      "description": "Current location within the ink-navy rail.",
+      "html": "<nav class=\"ds-nav\" aria-label=\"工作区\"><a href=\"#voices\" aria-current=\"page\">音色工作室</a><a href=\"#material\">训练素材</a><a href=\"#training\">训练任务</a></nav>",
+      "css": ".ds-nav{font-family:-apple-system, BlinkMacSystemFont, \"Segoe UI\", \"PingFang SC\", \"Microsoft YaHei\", sans-serif;font-size:14px;line-height:1.6;display:grid;gap:8px;padding:22px;background:var(--nav,#182d3c);width:190px}.ds-nav a{transition:background-color .18s ease-out,border-color .18s ease-out,color .18s ease-out;color:#bdcbd6;padding:12px 13px;border-radius:7px;text-decoration:none;white-space:nowrap}.ds-nav a:hover{background:#253e50;color:white}.ds-nav a[aria-current=\"page\"]{background:#2b465a;color:white}.ds-nav a:focus-visible{outline:3px solid var(--focus,#83a9ff);outline-offset:3px}@media(prefers-reduced-motion:reduce){.ds-nav{transition:none!important}}"
+    },
+    {
+      "name": "Voice Badge",
+      "kind": "chip",
+      "refersTo": "badge",
+      "description": "A quiet, non-interactive selected voice identity.",
+      "html": "<span class=\"ds-badge\">日常人声 · v1</span>",
+      "css": ".ds-badge{font-family:-apple-system, BlinkMacSystemFont, \"Segoe UI\", \"PingFang SC\", \"Microsoft YaHei\", sans-serif;font-size:14px;line-height:1.6;display:inline-block;background:#f0f3f6;color:#566876;padding:3px 9px;border-radius:5px;font-size:11px;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}@media(prefers-reduced-motion:reduce){.ds-badge{transition:none!important}}"
+    },
+    {
+      "name": "Form Container",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "A flat paper surface bounded by a quiet rule.",
+      "html": "<section class=\"ds-card\"><h2>添加参考音色</h2><p>上传清晰人声，即可先试听。</p></section>",
+      "css": ".ds-card{font-family:-apple-system, BlinkMacSystemFont, \"Segoe UI\", \"PingFang SC\", \"Microsoft YaHei\", sans-serif;font-size:14px;line-height:1.6;background:var(--paper,#fff);color:var(--ink,#20313d);border:1px solid var(--line,#dce3e8);border-radius:var(--radius,10px);padding:26px}.ds-card h2{margin:0;font-size:16px;font-weight:650}.ds-card p{margin:6px 0 0;color:var(--muted,#62717d);font-size:12px}@media(prefers-reduced-motion:reduce){.ds-card{transition:none!important}}"
+    },
+    {
+      "name": "Selected Voice Row",
+      "kind": "custom",
+      "refersTo": "voice-row-selected",
+      "description": "Selection remains visible through fill, stroke, checkmark, and aria-pressed.",
+      "html": "<button class=\"ds-voice\" aria-pressed=\"true\"><span class=\"ds-mark\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M5 10v4m5-8v12m5-15v18m5-12v6\"/></svg></span><span class=\"ds-info\"><strong>日常人声</strong><small>参考音色 · 版本 1</small></span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"m5 12 4 4 10-10\"/></svg></button>",
+      "css": ".ds-voice{font-family:-apple-system, BlinkMacSystemFont, \"Segoe UI\", \"PingFang SC\", \"Microsoft YaHei\", sans-serif;font-size:14px;line-height:1.6;transition:background-color .18s ease-out,border-color .18s ease-out,color .18s ease-out;display:flex;align-items:center;gap:12px;text-align:left;width:100%;padding:14px 12px;border-radius:8px;border:1px solid transparent;background:transparent;color:var(--ink,#20313d);cursor:pointer}.ds-voice:hover{background:#f0f4f8}.ds-voice[aria-pressed=\"true\"]{border-color:#adbfec;background:var(--accent-soft,#edf2ff)}.ds-mark{width:38px;height:38px;border-radius:8px;background:#dbe5ff;color:var(--accent,#2656c9);display:grid;place-items:center;flex-shrink:0}.ds-voice svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;}.ds-info{min-width:0;flex:1}.ds-info strong{display:block;font-size:13px;font-weight:600;overflow-wrap:anywhere}.ds-info small{display:block;font-size:11px;color:var(--muted,#62717d);margin-top:3px}.ds-voice>svg{width:16px;color:var(--accent,#2656c9)}.ds-voice:focus-visible{outline:3px solid var(--focus,#83a9ff);outline-offset:3px}@media(prefers-reduced-motion:reduce){.ds-info,.ds-mark,.ds-voice{transition:none!important}}"
+    },
+    {
+      "name": "Job State",
+      "kind": "chip",
+      "refersTo": "job-state",
+      "description": "Explicit queued, running, succeeded, and failed labels with semantic colors.",
+      "html": "<div class=\"ds-states\"><span class=\"ds-state\" data-state=\"running\">运行中</span><span class=\"ds-state\" data-state=\"succeeded\">已完成</span><span class=\"ds-state\" data-state=\"failed\">失败</span></div>",
+      "css": ".ds-states{display:flex;gap:10px;flex-wrap:wrap}.ds-state{font-family:-apple-system, BlinkMacSystemFont, \"Segoe UI\", \"PingFang SC\", \"Microsoft YaHei\", sans-serif;font-size:14px;line-height:1.6;font-size:11px;padding:3px 9px;border-radius:5px;white-space:nowrap;background:#eef1f5;color:#536575}.ds-state[data-state=\"running\"],.ds-state[data-state=\"queued\"]{background:#eaf0ff;color:#34549b}.ds-state[data-state=\"succeeded\"]{background:#e7f4ed;color:#24704e}.ds-state[data-state=\"failed\"],.ds-state[data-state=\"interrupted\"]{background:#fcecee;color:#a12b3b}@media(prefers-reduced-motion:reduce){.ds-state,.ds-states{transition:none!important}}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Private Listening Room",
+    "overview": "Mineral-white work surfaces sit beside an ink-navy navigation rail. Cobalt identifies actions and selected voices; quiet borders and compact metadata keep the workspace readable while recordings, transcripts, and output remain the main material.\n\nThe implemented character is restrained and operational: familiar browser controls, generous space around the editor, and closely organized rows for voices, materials, and training records. This is a code-derived record of the shipped interface, not an approved image composition. The North Star is a descriptive name for the implemented world, not a separately approved brand claim.",
+    "keyCharacteristics": [
+      "Mineral-white surfaces with an ink-navy navigation anchor.",
+      "Cobalt action and selection states, supported by text and borders.",
+      "Compact record metadata inside generously spaced work areas.",
+      "Native audio controls paired with a waveform derived from actual samples."
+    ],
+    "rules": [
+      {
+        "name": "The Cobalt Selection Rule",
+        "body": "Use the cobalt family for actionable controls and selected voice states; retain text and structural cues so color is never the only identifier.",
+        "section": "colors"
+      },
+      {
+        "name": "The Quiet Surface Rule",
+        "body": "Use tonal separation and fine borders for ordinary containers; reserve the existing diffuse shadow for the composite studio and floating audio preview.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do retain a visible focus outline on interactive controls and a keyboard skip link to the workspace.",
+      "Do preserve selected voice and output version identity beside their respective controls.",
+      "Do move duration and date beneath material transcripts on narrow screens so the audition column stays available.",
+      "Do derive waveform marks from real audio samples and use a flat baseline when no samples exist.",
+      "Do show capability, error, and job states in words as well as color."
+    ],
+    "donts": [
+      "Don't use decorative waveform samples to imply generated audio.",
+      "Don't replace real job stages with invented progress or ornamental dashboard metrics.",
+      "Don't turn transient notices, disabled controls, or test data into permanent content or visual identity.",
+      "Don't extend the current system-stack page heading or literal plus-sign icon into a new display-font or icon rule; these remain implementation exceptions."
+    ]
+  }
+}

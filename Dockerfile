@@ -1,3 +1,10 @@
+FROM node:22-bookworm-slim AS frontend
+WORKDIR /ui
+COPY frontend/package*.json ./
+RUN npm ci
+COPY frontend ./
+RUN npm run build
+
 FROM python:3.10-slim-bookworm AS runtime
 ARG TORCH_INDEX_URL=https://download.pytorch.org/whl/cpu
 ARG COSYVOICE_REV=074ca6dc9e80a2f424f1f74b48bdd7d3fea531cc
@@ -18,6 +25,7 @@ RUN git clone https://github.com/QwenAudio/CosyVoice.git /opt/CosyVoice \
     && mkdir -p /app/vendor && ln -s /opt/CosyVoice /app/vendor/CosyVoice
 COPY pyproject.toml ./
 COPY src ./src
+COPY --from=frontend /src/tts_host/web ./src/tts_host/web
 RUN uv pip install --system .
 COPY scripts ./scripts
 COPY config ./config
