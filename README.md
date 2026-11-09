@@ -1,6 +1,6 @@
 # Colab-TTS-Host
 
-可配置的纯服务端语音平台：**ASR、文本翻译、TTS、音色克隆与训练、流式同声传译**。Python/FastAPI；代码在 GitHub，Colab 用于开发和模型实验，Docker 用于独立服务器部署。没有录音网页或播放器。
+可配置的语音服务平台：**ASR、文本翻译、TTS、音色克隆与训练、流式同声传译**。**Python/FastAPI 后端 + React 前端**；代码在 GitHub，Colab 用于开发和模型实验，Docker 用于独立服务器部署。内置「声间」工作室，浏览器上传录音、标注素材、管理训练并试听所选音色，原有独立 API 继续可用。
 
 ## 已实现与边界
 
@@ -30,8 +30,6 @@
 ```bash
 git clone https://github.com/hewenyu/Colab-TTS-Host.git
 cd Colab-TTS-Host
-# 开发分支在 PR 合并前需要切换
-git switch feat/streaming-speech-server
 bash scripts/deploy.sh gpu
 # 无 GPU：bash scripts/deploy.sh cpu
 ```
@@ -41,6 +39,16 @@ bash scripts/deploy.sh gpu
 如果只接远程翻译服务/只启用部分功能，把对应 backend 改为 `disabled`，将 `.env` 中 `DOWNLOAD_MODELS=0`，自行提供所需的模型目录。`health/live` 只表示进程存活，模型按需加载，不能当作模型已加载的证明。
 
 不要在 GPU 单卡上同时跑训练和推理，二者会争抢显存。Compose 的 `training` profile 默认不启动。启用训练前先准备模型和数据、在配置里设 `training.enabled: true`，随后用独立 GPU/独立运行时启动 `speech-worker`。
+
+## 可视化工作室
+
+部署后打开 `http://127.0.0.1:8000/`，输入 `.env` 里的 owner API Key。Colab 中的 localhost 属于 **Colab 运行时**；使用自己的 CF Tunnel 时，将源站指向同一运行时的 `http://127.0.0.1:8000`，浏览器打开对应的 HTTPS 域名。
+
+- **音色工作室**：上传 3–30 秒参考录音，自动识别并校对原文，创建音色；选中音色后流式生成与播放，下载 WAV 或导出音色配置。
+- **训练素材**：拖入多个 1–30 秒片段、编辑逐段原文、保存并选择训练集。浏览器在上传前转换为 16 kHz 单声道 WAV。
+- **训练任务**：选择音色、轮数与学习率，查看实际任务阶段、取消任务，完成后选择新版本试听。需要启用训练并另起 worker；没有 worker 时不会虚构进度。
+
+音频与权重在 `data/`、`models/` 中，不进入 Git，也不会随 React 打包。API Key 仅保留在页面内存；刷新后重新连接。音色 JSON 导出包含 ID 和版本，**不包含权重**。完整使用与 React 开发说明见 [docs/studio.md](docs/studio.md)。
 
 ## 自定义模型
 
@@ -113,6 +121,8 @@ TTS 默认 `stream=true` 返回 PCM16 原始音频流，采样率见 `X-Sample-R
 
 ```bash
 bash scripts/bootstrap_colab.sh cpu # GPU 运行时改为 gpu
+npm ci --prefix frontend
+npm run build --prefix frontend
 .venv/bin/pytest -q
 .venv/bin/python scripts/smoke_models.py --config config/server.yaml
 ```
@@ -133,4 +143,4 @@ Colab 磁盘会丢失。代码及时推回 GitHub；训练后显式运行上传�
 
 限制包括上传大小、时长、文本长度、空闲超时、会话上限和有界队列。ASR/翻译的线程调用采用有界输入和输出；超时后底层当前算子可能继续到返回。CosyVoice 使用进程级终止，可以回收上游后台线程。应用日志/数据卷含用户数据，宿主机需控制访问与备份期限。
 
-协议测试：`pip install -e '.[test]' && pytest -q`；真实模型测试需要另外安装模型依赖。`scripts/smoke_models.py` 不训练声音、不需要用户音频。项目代码采用 MIT；基础模型和第三方源代码分别遵循其原有许可证。
+测试：先 `npm ci --prefix frontend && npm run build --prefix frontend`，再 `pip install -e '.[test]' && pytest -q`；音频单元测试 `npm test --prefix frontend`；真实模型测试需要另外安装模型依赖。`scripts/smoke_models.py` 不训练声音、不需要用户音频。项目代码采用 MIT；基础模型和第三方源代码分别遵循其原有许可证。

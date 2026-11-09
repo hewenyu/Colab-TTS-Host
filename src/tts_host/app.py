@@ -18,6 +18,7 @@ from .config import Settings, Strict
 from .middleware import BodyTooLarge, RequestGuard
 from .protocol import Session, SessionCancelled, Start, single_text
 from .store import Store
+from .studio import install_studio
 
 log = logging.getLogger(__name__)
 
@@ -68,6 +69,8 @@ def create_app(settings=None, services=None):
 
     async def owner(request: Request):
         return authenticate(request.headers)
+
+    install_studio(app, store, settings, owner)
 
     app.add_middleware(RequestGuard, authenticate=authenticate,
                        max_bytes=(settings.limits.upload_mb + 1) * 1024 * 1024)

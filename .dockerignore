@@ -8,3 +8,7 @@ vendor
 *.log
 tests
 notebooks
+
+frontend/node_modules
+src/tts_host/web
+.impeccable

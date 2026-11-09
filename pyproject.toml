@@ -25,6 +25,9 @@ speech-worker = "tts_host.training:main"
 [tool.setuptools.packages.find]
 where = ["src"]
 
+[tool.setuptools.package-data]
+tts_host = ["web/*.html", "web/assets/*.css", "web/assets/*.js"]
+
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
 testpaths = ["tests"]
