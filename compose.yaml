@@ -1,0 +1,50 @@
+services:
+  api:
+    image: colab-tts-host:local
+    build:
+      context: .
+      target: runtime
+      args:
+        TORCH_INDEX_URL: ${TORCH_INDEX_URL:-https://download.pytorch.org/whl/cpu}
+    ports:
+      - "${BIND_ADDRESS:-127.0.0.1}:${PORT:-8000}:8000"
+    environment:
+      SPEECH_API_KEYS: ${SPEECH_API_KEYS:?Run python scripts/configure.py first}
+      SPEECH_CONFIG: /app/config/active.yaml
+      SPEECH_DATA_DIR: /app/data
+      DOWNLOAD_MODELS: ${DOWNLOAD_MODELS:-1}
+    volumes:
+      - ${CONFIG_FILE:-./config/server.yaml}:/app/config/active.yaml:ro
+      - speech_data:/app/data
+      - speech_models:/app/models
+      - speech_cache:/app/cache
+    restart: unless-stopped
+    init: true
+    stop_grace_period: 30s
+    security_opt:
+      - no-new-privileges:true
+    cap_drop: [ALL]
+  trainer:
+    profiles: [training]
+    image: colab-tts-host-training:local
+    build:
+      context: .
+      target: training
+      args:
+        TORCH_INDEX_URL: https://download.pytorch.org/whl/cu121
+    environment:
+      SPEECH_API_KEYS: ${SPEECH_API_KEYS}
+      SPEECH_CONFIG: /app/config/active.yaml
+      DOWNLOAD_MODELS: "0"
+    volumes:
+      - ${CONFIG_FILE:-./config/gpu.yaml}:/app/config/active.yaml:ro
+      - speech_data:/app/data
+      - speech_models:/app/models
+      - speech_cache:/app/cache
+    gpus: all
+    init: true
+    stop_grace_period: 30s
+volumes:
+  speech_data:
+  speech_models:
+  speech_cache:

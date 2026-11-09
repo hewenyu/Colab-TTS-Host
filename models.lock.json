@@ -1,0 +1,6 @@
+{
+  "cosyvoice_source": "074ca6dc9e80a2f424f1f74b48bdd7d3fea531cc",
+  "tts": {"repo": "FunAudioLLM/Fun-CosyVoice3-0.5B-2512", "revision": "29e01c4e8d000f4bcd70751be16fa94bf3d85a18"},
+  "translation": {"repo": "Qwen/Qwen2.5-0.5B-Instruct", "revision": "7ae557604adf67be50417f59c2c2f167def9a775"},
+  "asr": {"hub": "hf", "repo": "funasr/paraformer-zh-streaming", "revision": "fd2af606b37d7fb8b3b8a218c5be5b07b53ef6ba"}
+}

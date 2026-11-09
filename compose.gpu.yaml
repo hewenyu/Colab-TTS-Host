@@ -1,0 +1,8 @@
+services:
+  api:
+    build:
+      args:
+        TORCH_INDEX_URL: https://download.pytorch.org/whl/cu121
+    gpus: all
+    volumes:
+      - ${CONFIG_FILE:-./config/gpu.yaml}:/app/config/active.yaml:ro

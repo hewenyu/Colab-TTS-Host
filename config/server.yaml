@@ -1,0 +1,28 @@
+# CPU baseline. For CUDA set asr.device/translation.device to cuda and tts.fp16 to true.
+# Secrets belong in SPEECH_API_KEYS, never in this file.
+data_dir: data
+asr:
+  backend: paraformer
+  model: models/asr
+  revision: v2.0.4
+  device: cpu
+tts:
+  backend: cosyvoice3
+  device: cpu
+  source_dir: vendor/CosyVoice
+  model_dir: models/cosyvoice3
+  revision: 29e01c4e8d000f4bcd70751be16fa94bf3d85a18
+  fp16: false
+translation:
+  backend: transformers
+  model: models/translation
+  revision: 7ae557604adf67be50417f59c2c2f167def9a775
+  device: cpu
+training:
+  enabled: false
+  max_seconds: 3600
+limits:
+  max_sessions: 4
+  queue_size: 16
+  inference_seconds: 600
+  session_seconds: 900
