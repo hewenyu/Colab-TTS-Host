@@ -1,0 +1,21 @@
+data_dir: data
+asr:
+  backend: paraformer
+  model: models/asr
+  device: cuda
+tts:
+  backend: cosyvoice3
+  source_dir: vendor/CosyVoice
+  model_dir: models/cosyvoice3
+  revision: 29e01c4e8d000f4bcd70751be16fa94bf3d85a18
+  fp16: true
+translation:
+  backend: transformers
+  model: models/translation
+  revision: 7ae557604adf67be50417f59c2c2f167def9a775
+  device: cuda
+training:
+  enabled: false
+limits:
+  max_sessions: 4
+  inference_seconds: 180

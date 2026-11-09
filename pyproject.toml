@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "colab-tts-host"
+version = "0.1.0"
+description = "Configurable streaming ASR, translation, voice cloning and TTS server"
+requires-python = ">=3.10"
+dependencies = [
+  "fastapi>=0.121,<1", "uvicorn[standard]>=0.30,<1", "pydantic>=2.7,<3",
+  "httpx>=0.27,<1", "numpy>=1.26,<2", "soundfile>=0.12,<1",
+  "scipy>=1.11,<1.15", "python-multipart>=0.0.20", "PyYAML>=6,<7",
+]
+
+[project.optional-dependencies]
+test = ["pytest>=8,<9", "pytest-asyncio>=0.24,<1", "websockets>=13,<16"]
+asr = ["funasr==1.2.7", "modelscope==1.20.0", "torch==2.3.1", "torchaudio==2.3.1"]
+translation = ["transformers==4.51.3", "torch==2.3.1", "accelerate>=0.30,<2"]
+hub = ["huggingface-hub>=0.30,<1"]
+
+[project.scripts]
+speech-worker = "tts_host.training:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]

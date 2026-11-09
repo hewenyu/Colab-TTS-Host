@@ -1,0 +1,2 @@
+# whisper's old build script imports pkg_resources, removed in newer setuptools.
+setuptools==75.8.0
