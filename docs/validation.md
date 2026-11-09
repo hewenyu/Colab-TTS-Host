@@ -4,13 +4,13 @@
 
 ## 自动化测试
 
-本地 Python 3.12：18 项测试通过。覆盖 HTTP/WS 鉴权、音色跨身份隔离、未配置后端、ASR cache 隔离、PCM 格式校验、排空顺序、TTS 输入结束前输出、取消关闭生成器及实际子进程回收、有界队列溢出、实际 chunked body 大小限制、音频时长/重采样、持久化任务原子领取及重复音频检测。
+本地 Python 3.12：19 项测试通过。覆盖 HTTP/WS 鉴权、音色跨身份隔离、未配置后端、ASR cache 隔离、PCM 格式校验、排空顺序、TTS 输入结束前输出、取消关闭生成器及实际子进程回收、有界队列溢出、实际 chunked body 大小限制、音频时长/重采样、持久化任务原子领取及重复音频检测。
 
 这些测试使用注入的测试替身验证服务协议，不代表模型质量或速度。配置、notebook JSON、Python 编译和 shell 语法检查通过。
 
 ## Colab 资源
 
-连接器能读取免费订阅并创建 CPU 运行时。资源列表显示 T4 eligible，但实际创建 T4 返回 `INVALID_ARGUMENT / Precondition check failed`。未申请付费资源、未升级账号。Python 3.10 隔离环境已安装，CosyVoice 与 FunASR 导入成功。
+连接器能读取免费订阅并创建 CPU 运行时。资源列表显示 T4 eligible，但实际创建 T4 返回 `INVALID_ARGUMENT / Precondition check failed`。随后用户手动申请的 T4 已通过 MCP 发现并连接，`nvidia-smi` 确认 Tesla T4、15360 MiB 显存；正在该运行时继续验收。未申请付费资源、未升级账号。Python 3.10 隔离环境已安装，CosyVoice 与 FunASR 导入成功。
 
 固定版本模型已下载：CosyVoice3 `29e01c4e8d000f4bcd70751be16fa94bf3d85a18`，Qwen2.5-0.5B `7ae557604adf67be50417f59c2c2f167def9a775`；CosyVoice 源码 `074ca6dc9e80a2f424f1f74b48bdd7d3fea531cc`。
 

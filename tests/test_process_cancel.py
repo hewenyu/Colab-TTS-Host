@@ -3,7 +3,7 @@ import multiprocessing as mp
 import time
 from contextlib import aclosing
 
-from tts_host.adapters.tts import CosyVoiceTTS
+from tts_host.adapters.tts import CosyVoiceTTS, text_pieces
 from tts_host.config import Limits, TTSConfig
 
 
@@ -13,6 +13,14 @@ def blocked_worker(commands, inputs, outputs):
     outputs.put(("audio", 24000, b"\0\0"))
     while True:
         time.sleep(1)
+
+
+def test_bistream_turns_preserve_mixed_language_text():
+    text = "你好，hello world!\n今天 123.45 元。"
+    pieces = list(text_pieces(text))
+    assert ''.join(pieces) == text
+    assert any(piece.endswith("hello ") for piece in pieces) and "world!\n" in pieces
+    assert len(pieces) > 5
 
 
 async def test_cancellation_terminates_native_worker(monkeypatch):

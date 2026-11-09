@@ -9,12 +9,23 @@ import logging
 import multiprocessing as mp
 import os
 import queue
+import re
 import sys
 import time
 import zipfile
 from contextlib import contextmanager
 
 from ..audio import pcm16
+
+
+def text_pieces(text):
+    """Provide small model input turns without breaking Latin words or dropping spaces.
+
+    CosyVoice's bistream decoder schedules speech per incoming text turn. A single
+    oversized turn can wait for another turn before enough speech tokens exist to
+    form an audio chunk, even when the turn already contains a whole paragraph.
+    """
+    yield from re.findall(r"[\u3400-\u9fff]|[^\u3400-\u9fff\s]+\s*|\s+", text)
 
 
 @contextmanager
@@ -69,13 +80,17 @@ def _worker(config, commands, inputs, outputs):
                     model = AutoModel(model_dir=directory, fp16=config.fp16)
                 if model.__class__.__name__ != "CosyVoice3":
                     raise ValueError("cosyvoice3 adapter requires CosyVoice3 weights")
+                initial_hop_len = model.model.token_hop_len
                 loaded_dir = directory
+            # Upstream grows this mutable value during a stream. Reset it so a later
+            # request retains the same initial audio chunk size as a fresh model.
+            model.model.token_hop_len = initial_hop_len
             def text_chunks():
                 while True:
                     chunk = inputs.get()
                     if chunk is None:
                         return
-                    yield chunk
+                    yield from text_pieces(chunk)
             chunks = text_chunks()
             first = next(chunks, None)
             if first is not None:

@@ -36,6 +36,7 @@ async def stream_test(url, key, voice_id):
         assert first["type"] == "audio.chunk", first
         first_latency = time.monotonic() - started
         assert len(base64.b64decode(first["audio"])) > 0
+        print("TTS_FIRST_AUDIO", {"seconds": first_latency, "input_ended": False}, flush=True)
         await ws.send(json.dumps({"type": "text.delta", "text": "现在测试结束，谢谢。"}))
         await ws.send(json.dumps({"type": "input.end"}))
         count = 1
