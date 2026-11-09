@@ -36,6 +36,7 @@ async def stream_test(url, key, voice_id):
         assert first["type"] == "audio.chunk", first
         first_latency = time.monotonic() - started
         assert len(base64.b64decode(first["audio"])) > 0
+        audio_seconds = len(base64.b64decode(first["audio"])) / 2 / first["sample_rate"]
         print("TTS_FIRST_AUDIO", {"seconds": first_latency, "input_ended": False}, flush=True)
         await ws.send(json.dumps({"type": "text.delta", "text": "现在测试结束，谢谢。"}))
         await ws.send(json.dumps({"type": "input.end"}))
@@ -46,7 +47,11 @@ async def stream_test(url, key, voice_id):
                 break
             assert event["type"] != "error", event
             count += event["type"] == "audio.chunk"
-        return {"audio_before_input_end": True, "first_chunk_seconds": first_latency, "audio_chunks": count}
+            if event["type"] == "audio.chunk":
+                audio_seconds += len(base64.b64decode(event["audio"])) / 2 / event["sample_rate"]
+        elapsed = time.monotonic() - started
+        return {"audio_before_input_end": True, "first_chunk_seconds": first_latency, "audio_chunks": count,
+                "total_seconds": elapsed, "audio_seconds": audio_seconds, "real_time_factor": elapsed / audio_seconds}
 
 
 async def asr_stream_test(url, key, raw_audio, voice_id=None):
@@ -88,7 +93,9 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", default="config/server.yaml")
     parser.add_argument("--report", default="data/smoke-report.json")
-    parser.add_argument("--skip-tts", action="store_true")
+    scope = parser.add_mutually_exclusive_group()
+    scope.add_argument("--skip-tts", action="store_true")
+    scope.add_argument("--only-tts", action="store_true", help="Verify TTS while other models download")
     args = parser.parse_args()
     cfg = yaml.safe_load(Path(args.config).read_text())
     prompt = Path(cfg["tts"]["source_dir"]).resolve() / "asset/zero_shot_prompt.wav"
@@ -107,7 +114,8 @@ def main():
             server = subprocess.Popen([sys.executable, "-m", "uvicorn", "tts_host.app:create_app", "--factory",
                                        "--host", "127.0.0.1", "--port", str(port), "--ws-max-size", "65536"],
                                       env=env, stdout=log, stderr=subprocess.STDOUT, start_new_session=True)
-        report = {"hardware": "cuda" if cfg["asr"].get("device") == "cuda" else "cpu", "mock_models": False}
+        report = {"hardware": cfg["tts"].get("device", "cpu"), "mock_models": False,
+                  "scope": "tts" if args.only_tts else "asr_translation" if args.skip_tts else "full"}
         try:
             url = f"http://127.0.0.1:{port}"
             with httpx.Client(base_url=url, headers={"Authorization": f"Bearer {key}"}, timeout=1800) as client:
@@ -121,25 +129,29 @@ def main():
                         raise RuntimeError("Server exited during startup")
                     time.sleep(0.2)
                 audio = prompt.read_bytes()
-                start = time.monotonic()
-                res = client.post("/v1/asr/transcriptions", files={"file": ("sample.wav", audio)})
-                res.raise_for_status()
-                report["asr"] = {**res.json(), "seconds": time.monotonic() - start}
-                print("ASR", report["asr"], flush=True)
-                report["asr_stream"] = asyncio.run(asr_stream_test(url.replace("http:", "ws:"), key, audio))
-                print("ASR_STREAM", report["asr_stream"], flush=True)
-                res = client.post("/v1/translations", json={"text": report["asr"]["text"]})
-                res.raise_for_status()
-                report["translation"] = res.json()
-                print("TRANSLATION", report["translation"], flush=True)
+                if not args.only_tts:
+                    start = time.monotonic()
+                    res = client.post("/v1/asr/transcriptions", files={"file": ("sample.wav", audio)})
+                    res.raise_for_status()
+                    report["asr"] = {**res.json(), "seconds": time.monotonic() - start}
+                    print("ASR", report["asr"], flush=True)
+                    report["asr_stream"] = asyncio.run(asr_stream_test(url.replace("http:", "ws:"), key, audio))
+                    print("ASR_STREAM", report["asr_stream"], flush=True)
+                    res = client.post("/v1/translations", json={"text": report["asr"]["text"]})
+                    res.raise_for_status()
+                    report["translation"] = res.json()
+                    print("TRANSLATION", report["translation"], flush=True)
                 if not args.skip_tts:
                     res = client.post("/v1/voices", files={"file": ("sample.wav", audio)}, data={
                         "name": "upstream-smoke-reference", "transcript": "希望你以后能够做的比我还好呦。", "consent": True})
                     res.raise_for_status()
                     report["tts"] = asyncio.run(stream_test(url.replace("http:", "ws:"), key, res.json()["id"]))
                     print("TTS", report["tts"], flush=True)
-                    report["interpret"] = asyncio.run(asr_stream_test(url.replace("http:", "ws:"), key, audio, res.json()["id"]))
-                    print("INTERPRET", report["interpret"], flush=True)
+                    report["tts_warm"] = asyncio.run(stream_test(url.replace("http:", "ws:"), key, res.json()["id"]))
+                    print("TTS_WARM", report["tts_warm"], flush=True)
+                    if not args.only_tts:
+                        report["interpret"] = asyncio.run(asr_stream_test(url.replace("http:", "ws:"), key, audio, res.json()["id"]))
+                        print("INTERPRET", report["interpret"], flush=True)
             report["status"] = "passed"
         except BaseException:
             report["status"] = "failed"

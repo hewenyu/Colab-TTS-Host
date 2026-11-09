@@ -18,8 +18,12 @@ def main():
         snapshot_download(spec["repo"], revision=spec["revision"], local_dir=root / folder,
                           ignore_patterns=["*.zip", "*.engine", "*.plan", "*.batch.onnx",
                                            "flow.decoder.*", "llm.rl.pt"], max_workers=4)
-    from modelscope import snapshot_download as ms_download
-    ms_download(lock["asr"]["repo"], revision=lock["asr"]["revision"], local_dir=str(root / "asr"))
+    spec = lock["asr"]
+    if spec.get("hub") == "modelscope":
+        from modelscope import snapshot_download as ms_download
+        ms_download(spec["repo"], revision=spec["revision"], local_dir=str(root / "asr"))
+    else:
+        snapshot_download(spec["repo"], revision=spec["revision"], local_dir=root / "asr", max_workers=4)
     (root / "revisions.json").write_text(json.dumps(lock, indent=2))
     print("Pinned models are ready in", root)
 

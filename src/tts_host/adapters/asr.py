@@ -18,6 +18,7 @@ class ParaformerASR:
             if self.model is None:
                 from funasr import AutoModel
                 self.model = AutoModel(model=self.config.model, model_revision=self.config.revision,
+                                       hub=self.config.hub,
                                        device=self.config.device, disable_update=True,
                                        disable_pbar=True, disable_log=True)
             result = self.model.generate(input=samples, cache=cache, is_final=final,

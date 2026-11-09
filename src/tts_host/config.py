@@ -13,8 +13,9 @@ class Strict(BaseModel):
 
 class ASRConfig(Strict):
     backend: Literal["disabled", "paraformer"] = "disabled"
-    model: str = "iic/speech_paraformer-large_asr_nat-zh-cn-16k-common-vocab8404-online"
-    revision: str = "v2.0.4"
+    model: str = "models/asr"
+    revision: str = "fd2af606b37d7fb8b3b8a218c5be5b07b53ef6ba"
+    hub: Literal["hf", "ms"] = "hf"
     device: str = "cpu"
 
 

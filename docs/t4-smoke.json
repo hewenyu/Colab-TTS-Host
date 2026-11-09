@@ -1,0 +1,64 @@
+{
+  "hardware": "cuda",
+  "mock_models": false,
+  "scope": "full",
+  "asr": {
+    "text": "希望你以后能够做的比我还好哟",
+    "language": "zh",
+    "duration": 3.48,
+    "seconds": 15.406793382000046
+  },
+  "asr_stream": {
+    "final_text": "希望你以后能够做的比我还好哟",
+    "partials": 4
+  },
+  "translation": {
+    "text": "Hope you can do even better than me in the future.",
+    "source_language": "zh",
+    "target_language": "en"
+  },
+  "tts": {
+    "audio_before_input_end": true,
+    "first_chunk_seconds": 52.38390454899991,
+    "audio_chunks": 5,
+    "total_seconds": 65.25476047999996,
+    "audio_seconds": 12.719999999999999,
+    "real_time_factor": 5.1300912327044
+  },
+  "tts_warm": {
+    "audio_before_input_end": true,
+    "first_chunk_seconds": 3.2781924800001434,
+    "audio_chunks": 5,
+    "total_seconds": 18.879836776000047,
+    "audio_seconds": 15.2,
+    "real_time_factor": 1.2420945247368453
+  },
+  "interpret": {
+    "final_text": "希望你以后能够做的比我还好哟",
+    "partials": 4,
+    "translations": [
+      "Hope you can do even better than me in the future."
+    ],
+    "audio_chunks": 2
+  },
+  "status": "passed",
+  "model_lock": {
+    "cosyvoice_source": "074ca6dc9e80a2f424f1f74b48bdd7d3fea531cc",
+    "tts": {
+      "repo": "FunAudioLLM/Fun-CosyVoice3-0.5B-2512",
+      "revision": "29e01c4e8d000f4bcd70751be16fa94bf3d85a18"
+    },
+    "translation": {
+      "repo": "Qwen/Qwen2.5-0.5B-Instruct",
+      "revision": "7ae557604adf67be50417f59c2c2f167def9a775"
+    },
+    "asr": {
+      "hub": "hf",
+      "repo": "funasr/paraformer-zh-streaming",
+      "revision": "fd2af606b37d7fb8b3b8a218c5be5b07b53ef6ba"
+    }
+  },
+  "gpu": "Tesla T4 15360 MiB",
+  "sample": "CosyVoice asset/zero_shot_prompt.wav (upstream public sample)",
+  "tested_at": "2026-11-09"
+}
